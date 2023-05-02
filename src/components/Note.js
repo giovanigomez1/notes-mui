@@ -2,6 +2,9 @@ import { useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
+import Fab from '@mui/material/Fab';
+import EditIcon from '@mui/icons-material/Edit';
+
 
 
 function Note() {
@@ -24,8 +27,16 @@ function Note() {
       <Typography variant="paragraph" component="p" sx={{textAlign: 'start'}}>
         {note.text}
       </Typography>
-      
     </Box>
+    <Box sx={{display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: 5}}>
+      <Fab color="primary" aria-label="add" sx={{ backgroundColor: 'green'}}>
+        <EditIcon />
+      </Fab>
+    </Box>
+
+
+
+
   </div>
 }
 

@@ -14,3 +14,12 @@
   background-color: rgba(234, 234, 234, 0.619) !important;
   color: blueviolet;
 }
+
+.add_btn {
+  text-align: left;
+}
+
+.idea {
+  width: 40%;
+  margin-top: 2rem;
+}

@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { noteReducer, createNote, deleteNote } from "./slices/noteSlice";
-import { resetPagination } from "./actions";
 
 export const store = configureStore({
   reducer: {
@@ -9,4 +8,4 @@ export const store = configureStore({
 })
 
 
-export { createNote, deleteNote, resetPagination }
+export { createNote, deleteNote }
