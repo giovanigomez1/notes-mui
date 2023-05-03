@@ -25,10 +25,10 @@ function App() {
             </Typography>
           </Box>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={4} md={4} sx={{textAlign: 'center'}}>
+            <Grid item xs={12} sm={6} md={4} sx={{textAlign: 'center'}}>
               <NoteList/>
             </Grid>
-            <Grid item xs={12} sm={8} md={8} sx={{textAlign: 'center'}}>
+            <Grid item xs={12} sm={6} md={8} sx={{textAlign: 'center'}}>
               <Routes>
                 <Route path="/" element={<Home />}/>
                 <Route path="/form" element={<NotesForm /> }/>
@@ -42,6 +42,7 @@ function App() {
     </div>
   )
 }
+
 
 
 export default App

@@ -66,19 +66,18 @@ function NotesForm() {
   }
 
 
-  return <div>
+  return <Box sx={{padding: 1}}>
     <ThemeProvider theme={theme}>
       {message ? <Alert severity="warning">Uh oh, plese complete the fields before saving the note!</Alert> : ''}
       <Box sx={{display: 'flex', flexDirection: 'column', gap: 5}}>
-        <TextField variant='standard' label='Title' sx={{width: '100%'}} onChange={handleTitle} value={title} required/>
+        <TextField variant='standard'  label='Title' sx={{width: '100%'}} onChange={handleTitle} value={title} required/>
         <TextField variant='standard' multiline rows={4} label='Type here what you think' sx={{width: '100%'}} onChange={handleText} value={text} required/>
       </Box>
       <Fab color="primary" aria-label="add" variant='align-left' sx={{marginTop: 5, alignSelf: 'flex-end', backgroundColor: 'red', '&:hover': {backgroundColor: 'orangered'}}} onClick={saveNote}>
         <SaveIcon />
       </Fab>
     </ThemeProvider>
-
-  </div>
+  </Box>
 }
 
 

@@ -13,6 +13,9 @@ import MenuItem from '@mui/material/MenuItem';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
+import { setSearchTerm } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -61,11 +64,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const settings = ['Delet Account', 'Logout'];
 
 
-
 function ResponsiveAppBar() {
 
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('')
+  const dispatch = useDispatch()
+
+  const searchTerm = useSelector((state) => {
+    return state.notes.searchTerm
+  })
+
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -76,8 +83,7 @@ function ResponsiveAppBar() {
   };
 
   const handleSearchTerm = (event) => {
-    console.log(event.target.value)
-    setSearchTerm(event.target.value)
+    dispatch(setSearchTerm(event.target.value))
   }
 
 

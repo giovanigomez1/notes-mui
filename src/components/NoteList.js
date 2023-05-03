@@ -19,7 +19,7 @@ import Typography from "@mui/material/Typography"
 import moment from "moment";
 import { createTheme, ThemeProvider } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
+import { resetSearch } from "../store";
 
 
 const theme = createTheme({
@@ -52,8 +52,12 @@ function NoteList() {
   const [backBtn, setBackBtn] = useState(false)
   const [addBtn, setAddBtn] = useState(true)
   const [page, setPage] = useState(1);
-  const {notes} = useSelector((state) => {
-    return state.notes
+
+  const {notes, searchTerm} = useSelector((state) => {
+    return {
+      notes: state.notes.notes,
+      searchTerm: state.notes.searchTerm
+    }
   })
 
   
@@ -71,11 +75,15 @@ function NoteList() {
   }, [])
   
 
+  
+  
+  
+  
   const handleChange = (event, value) => {
     setPage(value);
   };
   let totalPages = 0
-
+  
   const pagination = (notes) => {
     const resultsPerPage = 5
     const start = (page - 1) * resultsPerPage
@@ -83,6 +91,8 @@ function NoteList() {
     totalPages = Math.ceil((notes.length) / resultsPerPage)  
     return notes.length <= resultsPerPage ? notes : notes.slice(start, end)
   }
+  
+  
 
 
   // The event listener was added only to the list container 
@@ -111,6 +121,7 @@ function NoteList() {
   const showArrowBtn = () => {
     setBackBtn(!backBtn)
     setAddBtn(true)
+    dispatch(resetSearch())
   }
 
   const showAddBtn = () => {
@@ -119,12 +130,14 @@ function NoteList() {
   }
 
 
-  const renderNotes = pagination(notes).map(note => {
+
+  const searchResults = notes.filter(elem => elem.title.toLowerCase().includes(searchTerm))
+  const renderNotes = pagination(searchResults).map(note => {
     return (
       <ThemeProvider theme={theme} key={note.id}>
         <ListItemButton className={`${noteSelect === note.title ? 'select' : ''}`}>
           <ListItem className="item" data-title={`${note.title}`} sx={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
-            <ListItemText primary={note.title.length < 22 ? note.title : `${note.title.slice(0, 20)}...`}/>
+            <ListItemText primary={note.title.length < 20 ? note.title : `${note.title.slice(0, 20)}...`}/>
             <Typography variant="textSm" component="p">
               {moment(new Date(note.id - 1000 * 60 * 60)).format("MMM Do YY, hh:mm:ss a")}
             </Typography>
@@ -136,6 +149,7 @@ function NoteList() {
       </ThemeProvider>      
     )
   }) 
+  
   
 
   return (
