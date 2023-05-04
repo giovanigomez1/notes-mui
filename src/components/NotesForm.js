@@ -59,7 +59,7 @@ function NotesForm() {
       timer()
     } else {
       setShowMessage(false)
-      dispatch(createNote({title, text, id: Date.now()}))
+      dispatch(createNote({title, text}))
       setTitle('')
       setText('')
     }

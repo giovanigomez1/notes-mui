@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Fragment } from "react";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -6,7 +6,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import { useDispatch } from "react-redux";
-import { deleteNote } from "../store";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import Pagination from '@mui/material/Pagination';
@@ -19,7 +18,9 @@ import Typography from "@mui/material/Typography"
 import moment from "moment";
 import { createTheme, ThemeProvider } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { resetSearch } from "../store";
+import { resetSearch, fetchNotes, deleteNote, deleteNoteDb } from "../store";
+
+
 
 
 const theme = createTheme({
@@ -73,8 +74,12 @@ function NoteList() {
       document.removeEventListener('click', handler)
     }
   }, [])
+
   
 
+  useEffect(() => {
+    dispatch(fetchNotes())
+  }, [])
   
   
   
@@ -103,6 +108,7 @@ function NoteList() {
     if(ele.closest('.delete')) {
       const id = ele.closest('.delete').dataset.id
       dispatch(deleteNote(id))
+      dispatch(deleteNoteDb(id))
       navigate('/')
       setNoteSelect('')
       setAddBtn(true)
@@ -110,7 +116,7 @@ function NoteList() {
     }
     if(ele.closest('.item')) {
       const title = ele.closest('.item').dataset.title
-      navigate(`/note/${(title).split(' ').join('_')}`)
+      navigate(`/note/${(title).toLowerCase().split(' ').join('-')}`)
       setNoteSelect(title)
       setBackBtn(true)
       setAddBtn(true)
@@ -130,23 +136,24 @@ function NoteList() {
   }
 
 
-
-  const searchResults = notes.filter(elem => elem.title.toLowerCase().includes(searchTerm))
+  const searchResults = notes.filter(elem => elem.title.toLowerCase().includes(searchTerm.toLowerCase()))
   const renderNotes = pagination(searchResults).map(note => {
     return (
-      <ThemeProvider theme={theme} key={note.id}>
-        <ListItemButton className={`${noteSelect === note.title ? 'select' : ''}`}>
-          <ListItem className="item" data-title={`${note.title}`} sx={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
-            <ListItemText primary={note.title.length < 20 ? note.title : `${note.title.slice(0, 20)}...`}/>
-            <Typography variant="textSm" component="p">
-              {moment(new Date(note.id - 1000 * 60 * 60)).format("MMM Do YY, hh:mm:ss a")}
-            </Typography>
-          </ListItem>
-          <IconButton aria-label="delete" className="delete" data-id={`${note.id}`}>
-            <DeleteIcon/>
-          </IconButton>
-        </ListItemButton>
-      </ThemeProvider>      
+      <Fragment key={note.id}>
+        <ThemeProvider theme={theme}>
+          <ListItemButton className={`${noteSelect === note.title ? 'select' : ''}`}>
+            <ListItem className="item" data-title={`${note.title}`} sx={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
+              <ListItemText primary={note.title.length < 20 ? note.title : `${note.title.slice(0, 20)}...`}/>
+              <Typography variant="textSm" component="p">
+                {moment(new Date(note.createdAt) - 1000 * 60 * 60).format("MMM Do YY, hh:mm:ss a")}
+              </Typography>
+            </ListItem>
+            <IconButton aria-label="delete" className="delete" data-id={`${note.id}`}>
+              <DeleteIcon/>
+            </IconButton>
+          </ListItemButton>
+        </ThemeProvider>      
+      </Fragment>
     )
   }) 
   

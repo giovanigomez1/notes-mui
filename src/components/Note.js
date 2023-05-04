@@ -8,7 +8,8 @@ import { useState } from "react";
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SaveIcon from '@mui/icons-material/Save';
-import { editNote } from "../store";
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import { editNote, updateNote } from "../store";
 
 
 
@@ -23,32 +24,49 @@ function Note() {
   const [showEdit, setShowEdit] = useState(false)
   const [editTitle, setEditTitle] = useState('')
   const [editText, setEditText] = useState('')
+  const [enableSaveBtn, setEnableSaveBtn] = useState(true)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   
+
   const handleShowEdit = () => {
     setShowEdit(true)
     setEditTitle(note.title)
     setEditText(note.text)
   }
   
+  const handleHideEdit = () => {
+    setShowEdit(false)
+    setEnableSaveBtn(true)
+  }
+
   const handleChangeTitle = (event) => {
+    setEnableSaveBtn(false)
     setEditTitle(event.target.value)
   }
 
   const handleChangeText = (event) => {
     setEditText(event.target.value)
+    setEnableSaveBtn(false)
   }
   
 
   const handleUpdateNote = () => {
     setShowEdit(false)
-    dispatch(editNote({id: note.id, title: editTitle, text: editText}))
-    navigate(`/note/${(editTitle).split(' ').join('_')}`)  }
-  
+    const updatedNote = {
+      id: note.id, 
+      title: editTitle, 
+      text: editText, 
+      createdAt: Date.now()
+    }
+    dispatch(editNote(updatedNote))
+    dispatch(updateNote(updatedNote))
+    navigate(`/note/${(editTitle).toLowerCase().split(' ').join('-')}`)  
+    setEnableSaveBtn(true)
+  }
 
   
-  const note = notes.find(el => el.title === (title).split('_').join(' '))
+  const note = notes.find(el => (el.title).toLowerCase() === (title).split('-').join(' '))
   
 
   return <Box sx={{padding: 2}}>
@@ -79,21 +97,28 @@ function Note() {
     </>
       : 
       <>
-      <Typography variant="h6" component="h4" sx={{width: '100%', whiteSpace: 'break-spaces'}}>
-        {note.title}
-      </Typography> 
-      <Typography variant="paragraph" component="p" sx={{textAlign: 'start', width: '100%'}}>
-        {note.text}
-      </Typography>
+        <Typography variant="h6" component="h4" sx={{width: '100%', whiteSpace: 'break-spaces'}}>
+          {note?.title}
+        </Typography> 
+        <Typography variant="paragraph" component="p" sx={{textAlign: 'start', width: '100%'}}>
+          {note?.text}
+        </Typography>
       </>
       }
     </Box>
     <Box sx={{display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: 5}}>
-      {showEdit ? <Fab color="primary" aria-label="add" sx={{ backgroundColor: 'green'}} onClick={handleUpdateNote}>
-        <SaveIcon />
-      </Fab> : 
+      {showEdit ? 
+      <Box sx={{display: 'flex', gap: 1.5}}>
+        <Fab color="primary" aria-label="add" sx={{ backgroundColor: 'orangered', '&:hover': {backgroundColor: '#fc9403'}}} onClick={handleHideEdit}>
+          <FirstPageIcon/>
+        </Fab>
+        <Fab color="primary" aria-label="add" sx={{ backgroundColor: 'green'}} onClick={handleUpdateNote} disabled={enableSaveBtn}>
+          <SaveIcon />
+        </Fab>
+      </Box>
+       : 
       <Fab color="primary" aria-label="add" sx={{ backgroundColor: 'green'}} onClick={handleShowEdit}>
-        <EditIcon />
+        <EditIcon/>
       </Fab>
       }
     </Box>

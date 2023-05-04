@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { resetSearch } from "../actions";
+import { fetchNotes } from "../thunks/fetchNotes";
+import { createNote } from "../thunks/createNote";
+
 
 const noteSlice = createSlice({
   name: 'notes',
@@ -8,22 +11,16 @@ const noteSlice = createSlice({
     searchTerm: ''
   },
   reducers: {
-    createNote(state, action) {
-      state.notes.unshift(action.payload)
-    },
     deleteNote(state, action) {
       console.log(action.payload)
-      const updated = state.notes.filter(note => note.id !== +action.payload)
+      const updated = state.notes.filter(note => note.id !== action.payload)
       state.notes = updated
     },
     editNote(state, action) {
       console.log(action.payload)
-      state.notes = state.notes.map(note => {
-        if(note.id === action.payload.id) {
-          return {...note, ...action.payload}
-        }
-        return note
-      })
+      const updated = state.notes.filter(note => note.id !== action.payload.id)
+      updated.unshift(action.payload)
+      state.notes = updated
     },
     setSearchTerm(state, action) {
       state.searchTerm = action.payload
@@ -31,15 +28,21 @@ const noteSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(resetSearch, (state, action) => {
-      console.log('here ')
       state.searchTerm = ''
+    })
+    builder.addCase(fetchNotes.fulfilled, (state, action) => {
+      state.notes = action.payload
+    })
+    builder.addCase(createNote.fulfilled, (state, action) => {
+      console.log(action.payload)
+      state.notes.unshift(action.payload)
     })
   }
 })
 
 
 
-export const { createNote, deleteNote, editNote, setSearchTerm} = noteSlice.actions
+export const { deleteNote, editNote, setSearchTerm} = noteSlice.actions
 export const noteReducer = noteSlice.reducer
 
 
