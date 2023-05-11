@@ -3,9 +3,9 @@ import axios from "axios";
 
 
 
-const fetchNotes = createAsyncThunk('notes/fetch', async () => {
+const fetchNotes = createAsyncThunk('notes/fetch', async (id) => {
   try {
-    const res = await axios.get('http://127.0.0.1:8000/api/v1/notes')
+    const res = await axios.get(`/api/v1/notes?user=${id}`)
     console.log(res.data.data.data)
     return res.data.data.data
   } catch(err) {

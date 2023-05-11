@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { resetSearch } from "../actions";
 import { fetchNotes } from "../thunks/fetchNotes";
 import { createNote } from "../thunks/createNote";
+import { logOutUser } from "../thunks/logoutUser";
+import { deleteAccount } from "../thunks/deleteAccount";
 
 
 const noteSlice = createSlice({
@@ -36,6 +38,12 @@ const noteSlice = createSlice({
     builder.addCase(createNote.fulfilled, (state, action) => {
       console.log(action.payload)
       state.notes.unshift(action.payload)
+    })
+    builder.addCase(logOutUser.fulfilled, (state, action) => {
+      state.notes = []
+    })
+    builder.addCase(deleteAccount.fulfilled, (state, action) => {
+      state.notes = []
     })
   }
 })

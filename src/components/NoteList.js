@@ -54,10 +54,12 @@ function NoteList() {
   const [addBtn, setAddBtn] = useState(true)
   const [page, setPage] = useState(1);
 
-  const {notes, searchTerm} = useSelector((state) => {
+
+  const {notes, searchTerm, user} = useSelector((state) => {
     return {
       notes: state.notes.notes,
-      searchTerm: state.notes.searchTerm
+      searchTerm: state.notes.searchTerm,
+      user: state.user.user
     }
   })
 
@@ -78,7 +80,7 @@ function NoteList() {
   
 
   useEffect(() => {
-    dispatch(fetchNotes())
+    dispatch(fetchNotes(user.id))
   }, [])
   
   
@@ -109,14 +111,14 @@ function NoteList() {
       const id = ele.closest('.delete').dataset.id
       dispatch(deleteNote(id))
       dispatch(deleteNoteDb(id))
-      navigate('/')
+      navigate('/dashboard')
       setNoteSelect('')
       setAddBtn(true)
       setBackBtn(false)
     }
     if(ele.closest('.item')) {
       const title = ele.closest('.item').dataset.title
-      navigate(`/note/${(title).toLowerCase().split(' ').join('-')}`)
+      navigate(`note/${(title).toLowerCase().split(' ').join('-')}`)
       setNoteSelect(title)
       setBackBtn(true)
       setAddBtn(true)
@@ -173,12 +175,12 @@ function NoteList() {
         <Pagination count={totalPages === 1 ? 0 : totalPages} hidePrevButton hideNextButton page={page} onChange={handleChange} />
       </Stack>
       <Box sx={{display: 'flex', justifyContent: 'flex-start', gap: 2, marginLeft: 5}}>
-        <Link to='/' className="add_btn">
+        <Link to='/dashboard' className="add_btn">
           {backBtn ? <Fab color="primary" aria-label="add" onClick={showArrowBtn}>
             <ArrowBackIcon />
           </Fab> : ' '}
         </Link>
-        <Link to='/form' className="add_btn">
+        <Link to='form' className="add_btn">
           {addBtn ? <Fab color="primary" aria-label="add" onClick={showAddBtn}>
             <AddIcon />
           </Fab> : ' '}

@@ -61,7 +61,7 @@ function Note() {
     }
     dispatch(editNote(updatedNote))
     dispatch(updateNote(updatedNote))
-    navigate(`/note/${(editTitle).toLowerCase().split(' ').join('-')}`)  
+    navigate(`../note/${(editTitle).toLowerCase().split(' ').join('-')}`)  
     setEnableSaveBtn(true)
   }
 

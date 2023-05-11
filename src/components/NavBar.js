@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,12 +9,23 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-
+import { useNavigate, Link } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import { setSearchTerm } from '../store';
+import { setSearchTerm, logOutUser } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
+import { deleteAccount } from '../store/thunks/deleteAccount';
+
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import deleteMe from '../img/deleteAcc.gif'
 
 
 
@@ -61,18 +72,43 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const settings = ['Delet Account', 'Logout'];
-
 
 function ResponsiveAppBar() {
 
   const [anchorElUser, setAnchorElUser] = useState(null);
   const dispatch = useDispatch()
 
-  const searchTerm = useSelector((state) => {
-    return state.notes.searchTerm
+  const {searchTerm, user} = useSelector((state) => {
+    return {
+      searchTerm: state.notes.searchTerm,
+      user: state.user.user
+    }
   })
 
+  const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const [userLoggedIn, setUserLoggegIn] = useState(null)
+
+  useEffect(() => {
+    if(user) {
+      setUserLoggegIn(user)
+      // setTimeout(() => {
+      // }, 2000);
+    } else {
+      setUserLoggegIn(null)
+    }
+  }, [user])
+
+  const navigate = useNavigate()
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -85,6 +121,19 @@ function ResponsiveAppBar() {
   const handleSearchTerm = (event) => {
     dispatch(setSearchTerm(event.target.value))
   }
+
+  const handleLogout = () => {
+    console.log('logout')
+    dispatch(logOutUser())
+  }
+
+
+  const handleDeleteAccount = () => {
+    setOpen(false)
+    dispatch(deleteAccount(user.id))
+  }
+   
+
 
 
 
@@ -108,7 +157,7 @@ function ResponsiveAppBar() {
             NOTES
           </Typography>
 
-          <Search>
+          {userLoggedIn ? <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -118,7 +167,7 @@ function ResponsiveAppBar() {
               onChange={handleSearchTerm}
               value={searchTerm}
             />
-          </Search>
+          </Search> : ''}
           <Typography
             variant="h5"
             noWrap
@@ -136,11 +185,10 @@ function ResponsiveAppBar() {
             NOTES
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
-
-          <Box sx={{ flexGrow: 0 }}>
+          {userLoggedIn ? <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Giovani Gomez" src="/static/images/avatar/2.jpg" />
+                <Avatar alt={`${(userLoggedIn.firstName).slice(0,1).toUpperCase()}`} src="/static/img/default.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -159,15 +207,43 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center" onClick={handleClickOpen}>Delete Account</Typography>
+              </MenuItem> 
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center" onClick={handleLogout}>Logout</Typography>
+              </MenuItem>
             </Menu>
-          </Box>
+          </Box> : ''}
+          
         </Toolbar>
       </Container>
+      <div>
+        <Dialog
+          fullScreen={fullScreen}
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="responsive-dialog-title"
+        >
+          <DialogTitle id="responsive-dialog-title">
+            {"Are you sure you want to delete your account?"}
+          </DialogTitle>
+          <DialogContent sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2}}>
+            <DialogContentText>
+              This action cannot be reversed and all notes created in this account will be deleted...
+            </DialogContentText>
+            <img src={deleteMe} alt="Close account" className='delete_img'/>
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button onClick={handleDeleteAccount} autoFocus>
+              Yes, delete my account!
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     </AppBar>
   );
 }

@@ -11,7 +11,6 @@ function Home() {
         What do you think today...
       </Typography>
       <img src={idea} alt="I have an idea" className='idea'/>
-      
     </Box>
   )
 }

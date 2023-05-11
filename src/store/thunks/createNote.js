@@ -3,7 +3,8 @@ import axios from "axios";
 
 
 const createNote = createAsyncThunk('notes/create', async (data) => {
-  const res = await axios.post('http://127.0.0.1:8000/api/v1/notes', {
+  console.log(data)
+  const res = await axios.post('/api/v1/notes', {
     title: data.title,
     text: data.text
   })
