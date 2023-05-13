@@ -19,7 +19,7 @@ import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'validator/lib/isEmpty';
 import Alert from '@mui/material/Alert';
 import { resetLoginFailMsj } from '../store';
-
+import LoadingButton from '@mui/lab/LoadingButton';
 
 
 const theme = createTheme();
@@ -31,9 +31,15 @@ export default function Login() {
   const dispatch = useDispatch()
   
 
-  const logingFailed = useSelector((state) => {
-    return state.user.logingFailed    
+  const {logingFailed, loadingLogin } = useSelector((state) => {
+    return {
+      logingFailed: state.user.logingFailed,
+      loadingLogin: state.user.loadingLogin
+    }    
   })
+
+
+
 
 
   useEffect(() => {
@@ -46,7 +52,6 @@ export default function Login() {
       setShowMessage(false)
     }
   }, [logingFailed])
-  
 
 
   const timer = () => setTimeout(() => {
@@ -80,6 +85,7 @@ export default function Login() {
     })) 
   };
 
+  
 
   return ( 
     <ThemeProvider theme={theme}>
@@ -125,14 +131,16 @@ export default function Login() {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
-              <Button
+              <LoadingButton
+                loading={loadingLogin}
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
-              </Button>
+                <span>Sing In</span>
+              </LoadingButton>
+              
               <Grid container>
                 <Grid item xs>
                   <Link to={'/forgot_password'} variant="body2" component={RouterLink}>

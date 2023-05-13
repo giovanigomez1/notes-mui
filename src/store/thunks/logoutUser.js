@@ -3,10 +3,11 @@ import axios from "axios";
 
 
 const logOutUser = createAsyncThunk('logout/user', async() => {
-  
-  const res = await axios.get('/api/v1/users/logout')
-
-  console.log(res)
+  try {
+    await axios.get('/api/v1/users/logout')
+  } catch(err) {
+    throw err.response.data.message
+  }
 })
 
 

@@ -4,13 +4,17 @@ import axios from "axios";
 
 const createNote = createAsyncThunk('notes/create', async (data) => {
   console.log(data)
-  const res = await axios.post('/api/v1/notes', {
-    title: data.title,
-    text: data.text
-  })
-
-  const {title, text, createdAt, id} = res.data.data.data
-  return {title, text, createdAt, id}
+  try {
+    const res = await axios.post('/api/v1/notes', {
+      title: data.title,
+      text: data.text
+    })
+  
+    const {title, text, createdAt, id} = res.data.data.data
+    return {title, text, createdAt, id}
+  } catch(err) {
+      throw err.response.data.message
+  }
 })
 
 

@@ -1,6 +1,5 @@
 import { useState, useEffect} from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
@@ -16,6 +15,8 @@ import { signUpUser } from '../store';
 import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'validator/lib/isEmpty';
 import Alert from '@mui/material/Alert';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { resetLoginFailMsj } from '../store';
 
 
 
@@ -46,18 +47,32 @@ export default function SignUp() {
     setShowMessage(false)
   }, 3000);
 
-  const user = useSelector((state) => {
-    return state.user.user
+
+  const {user, loadingSignup, creatingUserErrorMsj} = useSelector((state) => {
+    return {
+      user: state.user.user,
+      loadingSignup: state.user.loadingSignup, 
+      creatingUserErrorMsj: state.user.creatingUserErrorMsj
+    }
   })
 
+  
+  console.log(creatingUserErrorMsj)
   useEffect(() => {
     if(user) {
-      setTimeout(() => {
-        navigate('/dashboard')
-      }, 2000);
+      navigate('/dashboard')
     }
-  }, [user])
+    if(creatingUserErrorMsj){
+      setMessage(creatingUserErrorMsj)
+      setShowMessage(true)
+      timer()
+    }
+  }, [user, creatingUserErrorMsj])
 
+
+  const disabelErrorMsj = () => {
+    dispatch(resetLoginFailMsj())
+  }
 
 
   console.log(user)
@@ -173,17 +188,26 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-            <Button
+            {/* <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
               Sign Up
-            </Button>
+            </Button> */}
+            <LoadingButton
+                loading={loadingSignup}
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+              <span>Sign Up</span>
+            </LoadingButton>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link to={'/'} component={RouterLink}>
+                <Link to={'/'} component={RouterLink} onClick={disabelErrorMsj}>
                   Already have an account? Sign in
                 </Link>
               </Grid>

@@ -19,7 +19,8 @@ import moment from "moment";
 import { createTheme, ThemeProvider } from "@mui/material";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { resetSearch, fetchNotes, deleteNote, deleteNoteDb } from "../store";
-
+import Alert from '@mui/material/Alert';
+import { logOutUser } from '../store';
 
 
 
@@ -55,15 +56,24 @@ function NoteList() {
   const [page, setPage] = useState(1);
 
 
-  const {notes, searchTerm, user} = useSelector((state) => {
+  const {notes, searchTerm, user, errorUserNotLogged} = useSelector((state) => {
     return {
       notes: state.notes.notes,
       searchTerm: state.notes.searchTerm,
-      user: state.user.user
+      user: state.user.user,
+      errorUserNotLogged: state.notes.errorUserNotLogged
     }
   })
 
+  const [message, setShowMessage] = useState(false)
+  const [messageInfo, setMessageInfo] = useState('')
+
   
+  const timerLogout = () => setTimeout(() => {
+    dispatch(logOutUser())
+  }, 3000);
+
+
   useEffect(() => {
     const handler = (event) => {
       if(!listConte.current) return
@@ -77,14 +87,21 @@ function NoteList() {
     }
   }, [])
 
-  
 
   useEffect(() => {
     dispatch(fetchNotes(user.id))
   }, [])
   
+
+  useEffect(() => {
+    if(errorUserNotLogged) {
+      setShowMessage(true)
+      setMessageInfo(errorUserNotLogged)
+      timerLogout()
+    }
+  }, [errorUserNotLogged])
   
-  
+  console.log(errorUserNotLogged)
   
   const handleChange = (event, value) => {
     setPage(value);
@@ -163,6 +180,7 @@ function NoteList() {
 
   return (
     <Box sx={{display: 'flex', flexDirection: 'column', gap: 3}}>
+      {message ? <Alert severity="warning">{messageInfo}</Alert> : ''}
       <List onClick={handleClick} ref={listConte} sx={totalPages > 1 ? {height:'55vh'} : {height: 'auto'}}>
         {Object.entries(notes).length === 0 ? 
         <Typography variant="h5" component='p'>

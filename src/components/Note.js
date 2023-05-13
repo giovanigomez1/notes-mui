@@ -4,12 +4,14 @@ import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 import Fab from '@mui/material/Fab';
 import EditIcon from '@mui/icons-material/Edit';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SaveIcon from '@mui/icons-material/Save';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import { editNote, updateNote } from "../store";
+import Alert from '@mui/material/Alert';
+import { logOutUser } from '../store';
 
 
 
@@ -17,9 +19,16 @@ function Note() {
 
 
   const {title} = useParams()
-  const {notes} = useSelector((state) => {
-    return state.notes
+
+  const notes = useSelector((state) => {
+    return state.notes.notes
   })
+
+  
+  const timerLogout = () => setTimeout(() => {
+    dispatch(logOutUser())
+  }, 3000);
+
 
   const [showEdit, setShowEdit] = useState(false)
   const [editTitle, setEditTitle] = useState('')
@@ -27,7 +36,8 @@ function Note() {
   const [enableSaveBtn, setEnableSaveBtn] = useState(true)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  
+
+
 
   const handleShowEdit = () => {
     setShowEdit(true)
@@ -65,6 +75,7 @@ function Note() {
     setEnableSaveBtn(true)
   }
 
+  
   
   const note = notes.find(el => (el.title).toLowerCase() === (title).split('-').join(' '))
   
@@ -124,7 +135,6 @@ function Note() {
     </Box>
   </Box>
 }
-
 
 
 
