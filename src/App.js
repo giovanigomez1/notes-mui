@@ -48,14 +48,16 @@ function App() {
 
   const checkUser = useCallback(() => {
     dispatch(checkUserLogged())
+    // eslint-disable-next-line
   }, [])
   
-
+  
   useEffect(() => {
     checkUser()
   }, [checkUser])
 
-  
+
+
   return (
     <div>
         <BrowserRouter>

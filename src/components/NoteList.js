@@ -69,7 +69,7 @@ function NoteList() {
   
   const timerLogout = () => setTimeout(() => {
     dispatch(logOutUser())
-  }, 3000);
+  }, process.env.REACT_APP_TIMER);
 
   useEffect(() => {
     const handler = (event) => {
@@ -87,14 +87,17 @@ function NoteList() {
 
   useEffect(() => {
     dispatch(fetchNotes(user.id))
+    // eslint-disable-next-line
   }, [])
   
+
   useEffect(() => {
     if(errorUserNotLogged) {
       setShowMessage(true)
       setMessageInfo(errorUserNotLogged)
       timerLogout()
     }
+    // eslint-disable-next-line
   }, [errorUserNotLogged])
     
   const handleChange = (event, value) => {
@@ -163,8 +166,7 @@ function NoteList() {
         </ThemeProvider>      
       </Fragment>
     )
-  }) 
-ad  
+  })   
 
   return (
     <Box sx={{display: 'flex', flexDirection: 'column', gap: 3}}>

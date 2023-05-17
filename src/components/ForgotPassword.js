@@ -21,7 +21,6 @@ function ForgotPassword() {
         display: 'flex', 
         justifyContent: 'center', 
         alignItems: 'center', 
-        gap: 4,
         flexDirection: onlySmallScreen ? 'column' : onlyMediumScreen ? 'row' : onlyLargeScreen ? 'row' : 'row',
         gap: onlySmallScreen ? 1 : onlyMediumScreen ? 2 : onlyLargeScreen ? 3 : 4,      
       }}>

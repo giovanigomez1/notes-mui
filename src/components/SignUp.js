@@ -45,7 +45,7 @@ export default function SignUp() {
 
   const timer = () => setTimeout(() => {
     setShowMessage(false)
-  }, 3000);
+  }, process.env.REACT_APP_TIMER);
 
 
   const {user, loadingSignup, creatingUserErrorMsj} = useSelector((state) => {
@@ -67,6 +67,7 @@ export default function SignUp() {
       setShowMessage(true)
       timer()
     }
+    // eslint-disable-next-line
   }, [user, creatingUserErrorMsj])
 
 
@@ -74,8 +75,6 @@ export default function SignUp() {
     dispatch(resetLoginFailMsj())
   }
 
-
-  console.log(user)
 
   const handleSubmit = (event) => {
     event.preventDefault();

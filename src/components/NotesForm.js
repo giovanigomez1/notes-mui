@@ -38,7 +38,7 @@ function NotesForm() {
 
   const timer = () => setTimeout(() => {
     setShowMessage(false)
-  }, 3000);
+  }, process.env.REACT_APP_TIMER);
 
   
   
