@@ -80,6 +80,7 @@ export default function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    // Form validation.
     if(isEmpty(data.get('firstName')) || 
         isEmpty(data.get('lastName')) ||
         isEmpty(data.get('password')) || 
@@ -188,14 +189,6 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-            {/* <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button> */}
             <LoadingButton
                 loading={loadingSignup}
                 type="submit"

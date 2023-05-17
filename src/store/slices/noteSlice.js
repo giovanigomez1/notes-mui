@@ -39,6 +39,7 @@ const noteSlice = createSlice({
     builder.addCase(fetchNotes.fulfilled, (state, action) => {
       state.notes = action.payload
     })
+
     builder.addCase(createNote.pending, (state, action) => {
       state.savingNote = true
     })
@@ -53,12 +54,14 @@ const noteSlice = createSlice({
       state.errorUserNotLogged = action.error.message
       state.savingNote = false
     })
+
     builder.addCase(deleteNoteDb.pending, (state, action) => {
       state.errorUserNotLogged = ''
     })
     builder.addCase(deleteNoteDb.rejected, (state, action) => {
       state.errorUserNotLogged = action.error.message
     })
+
     builder.addCase(updateNote.pending, (state, action) => {
       state.errorUserNotLogged = ''
     })
@@ -71,6 +74,7 @@ const noteSlice = createSlice({
       state.notes = []
       state.errorUserNotLogged = ''
     })
+    
     builder.addCase(deleteAccount.pending, (state, action) => {
       state.errorUserNotLogged = ''
     })

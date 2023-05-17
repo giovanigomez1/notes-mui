@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import NoteList from "./components/NoteList";
 import NotesForm from "./components/NotesForm";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useCallback } from "react";
 import Typography from '@mui/material/Typography';
 import Note from "./components/Note";
 import NavBar from "./components/NavBar";
@@ -44,19 +44,18 @@ function App() {
       checkingUser: state.user.checkingUser
     }
   })
+  const dispatch = useDispatch()
 
+  const checkUser = useCallback(() => {
+    dispatch(checkUserLogged())
+  }, [])
   
 
-  const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(checkUserLogged())
-    
-  }, [])
+    checkUser()
+  }, [checkUser])
 
-  console.log(checkingUser)
-  console.log(user)
-
-
+  
   return (
     <div>
         <BrowserRouter>

@@ -4,10 +4,10 @@ import Fab from '@mui/material/Fab';
 import Alert from '@mui/material/Alert';
 import SaveIcon from '@mui/icons-material/Save';
 import { createTheme, ThemeProvider } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { createNote } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
-import { logOutUser } from '../store';
+
 
 const theme = createTheme({
   components: {
@@ -28,34 +28,24 @@ const theme = createTheme({
 })
 
 
-
 function NotesForm() {
 
   const dispatch = useDispatch()
-
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [message, setShowMessage] = useState(false)
   const [messageInfo, setMessageInfo] = useState('')
-  
-
 
   const timer = () => setTimeout(() => {
     setShowMessage(false)
   }, 3000);
 
-
-  const timerLogout = () => setTimeout(() => {
-    dispatch(logOutUser())
-  }, 3000);
   
   
   const savingNote = useSelector((state) => {
     return state.notes.savingNote
   })
   
-
-
   const handleTitle = (e) => {
     setTitle(e.target.value)
   }
@@ -65,7 +55,6 @@ function NotesForm() {
   }
   
   
-
   const saveNote = () => {
     if(title === '' || text === '') {
       setShowMessage(true)
@@ -81,6 +70,7 @@ function NotesForm() {
 
 
   return <Box sx={{padding: 1}}>
+    {message ? <Alert severity="warning">{messageInfo}</Alert> : ''}
     <ThemeProvider theme={theme}>
       <Box sx={{display: 'flex', flexDirection: 'column', gap: 5}}>
         <TextField variant='standard'  label='Title' sx={{width: '100%'}} onChange={handleTitle} value={title} required/>
@@ -95,4 +85,3 @@ function NotesForm() {
 
 
 export default NotesForm
-

@@ -23,7 +23,7 @@ import Alert from '@mui/material/Alert';
 import { logOutUser } from '../store';
 
 
-
+// Customize the size of Typography
 const theme = createTheme({
   components: {
     MuiTypography: {
@@ -41,7 +41,6 @@ const theme = createTheme({
     }
   }
 })
-
 
 
 
@@ -67,12 +66,10 @@ function NoteList() {
 
   const [message, setShowMessage] = useState(false)
   const [messageInfo, setMessageInfo] = useState('')
-
   
   const timerLogout = () => setTimeout(() => {
     dispatch(logOutUser())
   }, 3000);
-
 
   useEffect(() => {
     const handler = (event) => {
@@ -92,7 +89,6 @@ function NoteList() {
     dispatch(fetchNotes(user.id))
   }, [])
   
-
   useEffect(() => {
     if(errorUserNotLogged) {
       setShowMessage(true)
@@ -100,9 +96,7 @@ function NoteList() {
       timerLogout()
     }
   }, [errorUserNotLogged])
-  
-  console.log(errorUserNotLogged)
-  
+    
   const handleChange = (event, value) => {
     setPage(value);
   };
@@ -115,19 +109,16 @@ function NoteList() {
     totalPages = Math.ceil((notes.length) / resultsPerPage)  
     return notes.length <= resultsPerPage ? notes : notes.slice(start, end)
   }
-  
-  
 
-
-  // The event listener was added only to the list container 
-  // and then using event propagation we do Dom Traversing to determine the element that was clicked on
-  // and dispatch the necessary action.
+  /* The event listener was added only to the list container 
+    and then using event propagation we do Dom Traversing to determine the element that was clicked on and 
+    dispatch the necessary action. */
   const handleClick = (e) => {
     const ele = e.target
     if(ele.closest('.delete')) {
       const id = ele.closest('.delete').dataset.id
-      dispatch(deleteNote(id))
-      dispatch(deleteNoteDb(id))
+      dispatch(deleteNote(id)) // Delete the note on the notelist in the state.
+      dispatch(deleteNoteDb(id)) // Delete the note on the database.
       navigate('/dashboard')
       setNoteSelect('')
       setAddBtn(true)
@@ -139,7 +130,6 @@ function NoteList() {
       setNoteSelect(title)
       setBackBtn(true)
       setAddBtn(true)
-      
     }
   }
 
@@ -153,7 +143,6 @@ function NoteList() {
     setAddBtn(!addBtn)
     setBackBtn(true)
   }
-
 
   const searchResults = notes.filter(elem => elem.title.toLowerCase().includes(searchTerm.toLowerCase()))
   const renderNotes = pagination(searchResults).map(note => {
@@ -175,8 +164,7 @@ function NoteList() {
       </Fragment>
     )
   }) 
-  
-  
+ad  
 
   return (
     <Box sx={{display: 'flex', flexDirection: 'column', gap: 3}}>

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -31,27 +30,32 @@ export default function Login() {
   const dispatch = useDispatch()
   
 
-  const {logingFailed, loadingLogin } = useSelector((state) => {
+  const {logingFailed, loadingLogin, tooManyRequests } = useSelector((state) => {
     return {
       logingFailed: state.user.logingFailed,
-      loadingLogin: state.user.loadingLogin
+      loadingLogin: state.user.loadingLogin,
+      tooManyRequests: state.user.tooManyRequests
     }    
   })
 
 
-
-
-
   useEffect(() => {
-    if(logingFailed) {
+    
+    if(tooManyRequests) {
+      setMessage(tooManyRequests)
+      setShowMessage(true)
+      timer()
+    } else if(logingFailed) {
       setMessage('Incorrect email or password!')
       setShowMessage(true)
       timer()
-    } else {
+    }
+    else {
       setMessage('')
       setShowMessage(false)
     }
-  }, [logingFailed])
+  }, [logingFailed, tooManyRequests])
+
 
 
   const timer = () => setTimeout(() => {
@@ -85,7 +89,6 @@ export default function Login() {
     })) 
   };
 
-  
 
   return ( 
     <ThemeProvider theme={theme}>

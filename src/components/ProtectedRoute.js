@@ -8,35 +8,13 @@ function ProtectedRoute({children}) {
     return state.user.user
   })
 
-  
-  
-
-
-
   if(!user) {
     return <Navigate to={'/'}/>
   }
                     
-
-  console.log('this is the protected')
+  console.log('Protected route')
   return children ? children : <Outlet />
 }
 
 export default ProtectedRoute
 
-
-/* 
-
-
-<Stack spacing={3}>
-  <Skeleton variant="text" sx={{ fontSize: '4rem'}} />
-  <Box sx={{display: 'flex', flexDirection: 'column', gap: 3, alignItems: 'center'}}>
-    <Skeleton variant="rectangular" width='80%' height={60} />
-    <Skeleton variant="rounded" width='80%' height={60} />
-    <Skeleton variant="rounded" width='80%' height={60} />
-    <Skeleton variant="rounded" width='80%' height={60} />
-  </Box>
-</Stack> 
-
-
-*/

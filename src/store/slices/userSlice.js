@@ -16,7 +16,8 @@ const userSlice = createSlice({
     checkingUser: false,
     loadingLogin: false,
     loadingSignup: false,
-    creatingUserErrorMsj: ''
+    creatingUserErrorMsj: '',
+    tooManyRequests: ''
   },
   reducers: {
     userLogged(state, action) {
@@ -27,7 +28,6 @@ const userSlice = createSlice({
     builder.addCase(loginUser.pending, (state, action) => {
       state.logingFailed = false
       state.loadingLogin = true
-
     })
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.user = action.payload
@@ -65,6 +65,7 @@ const userSlice = createSlice({
       state.logingFailed = false
       state.creatingUserErrorMsj = ''
     })
+
     builder.addCase(checkUserLogged.pending, (state, action) => {
       state.checkingUser = true
     })
@@ -75,7 +76,9 @@ const userSlice = createSlice({
     })
     builder.addCase(checkUserLogged.rejected, (state, action) => {
       state.checkingUser = false
+      state.tooManyRequests = action.error.message
     })
+    
     builder.addCase(deleteAccount.fulfilled, (state, action) => {
       state.user = null
     })

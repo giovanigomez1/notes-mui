@@ -9,14 +9,12 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { useNavigate, Link } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { setSearchTerm, logOutUser } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteAccount } from '../store/thunks/deleteAccount';
-
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -26,7 +24,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import deleteMe from '../img/deleteAcc.gif'
-
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -77,7 +74,6 @@ function ResponsiveAppBar() {
 
   const [anchorElUser, setAnchorElUser] = useState(null);
   const dispatch = useDispatch()
-
   const {searchTerm, user} = useSelector((state) => {
     return {
       searchTerm: state.notes.searchTerm,
@@ -93,15 +89,12 @@ function ResponsiveAppBar() {
   useEffect(() => {
     if(user) {
       setUserLoggegIn(user)
-      // setTimeout(() => {
-      // }, 2000);
     } else {
       setUserLoggegIn(null)
     }
   }, [user])
 
-  const navigate = useNavigate()
-
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -123,19 +116,14 @@ function ResponsiveAppBar() {
   }
 
   const handleLogout = () => {
-    console.log('logout')
     dispatch(logOutUser())
   }
-
 
   const handleDeleteAccount = () => {
     setOpen(false)
     dispatch(deleteAccount(user.id))
   }
    
-
-
-
 
   return (
     <AppBar position="static">
@@ -156,7 +144,6 @@ function ResponsiveAppBar() {
           >
             NOTES
           </Typography>
-
           {userLoggedIn ? <Search>
             <SearchIconWrapper>
               <SearchIcon />
