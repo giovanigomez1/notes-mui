@@ -175,7 +175,7 @@ function ResponsiveAppBar() {
           {userLoggedIn ? <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={`${(userLoggedIn.firstName).slice(0,1).toUpperCase()}`} src="/static/img/default.jpg" />
+                <Avatar alt={`${(userLoggedIn.firstName).slice(0,1).toUpperCase()}`} src="https://notesapi-mui.vercel.app/img/default.jpg"/>
               </IconButton>
             </Tooltip>
             <Menu

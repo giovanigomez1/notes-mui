@@ -3,7 +3,7 @@ import axios from "axios";
 
 const loginUser = createAsyncThunk('login/users', async (user) => {
   try {
-    const res = await axios.post('/api/v1/users/login', {
+    const res = await axios.post('https://notesapi-mui.vercel.app/api/v1/users/login', {
       email: user.email,
       password: user.password
     }, {

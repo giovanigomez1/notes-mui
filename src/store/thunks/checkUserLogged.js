@@ -4,7 +4,7 @@ import axios from "axios";
 
 const checkUserLogged = createAsyncThunk('check/user', async () => {
   try {
-    const res = await axios.get('/api/v1/users/isLogged', {
+    const res = await axios.get('https://notesapi-mui.vercel.app/api/v1/users/isLogged', {
     SameSite: 'None',
     credentials: 'include',
     withCredentials: true,

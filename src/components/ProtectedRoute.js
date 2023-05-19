@@ -12,7 +12,6 @@ function ProtectedRoute({children}) {
     return <Navigate to={'/'}/>
   }
                     
-  console.log('Protected route')
   return children ? children : <Outlet />
 }
 

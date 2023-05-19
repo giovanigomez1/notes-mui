@@ -4,7 +4,7 @@ import axios from "axios";
 
 const signUpUser = createAsyncThunk('signup/users', async(user) => {
   try {
-    const newUser = await axios.post('/api/v1/users/signup', {
+    const newUser = await axios.post('https://notesapi-mui.vercel.app/api/v1/users/signup', {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,

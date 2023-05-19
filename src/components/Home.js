@@ -2,8 +2,6 @@ import Typography from '@mui/material/Typography';
 import idea from '../img/idea.gif'
 import { Box } from '@mui/material';
 
-
-
 function Home() {
   return (
     <Box sx={{marginTop: 4}}>
@@ -14,6 +12,5 @@ function Home() {
     </Box>
   )
 }
-
 
 export default Home

@@ -23,6 +23,7 @@ import Alert from '@mui/material/Alert';
 import { logOutUser } from '../store';
 
 
+
 // Customize the size of Typography
 const theme = createTheme({
   components: {
@@ -53,6 +54,7 @@ function NoteList() {
   const [backBtn, setBackBtn] = useState(false)
   const [addBtn, setAddBtn] = useState(true)
   const [page, setPage] = useState(1);
+
 
 
   const {notes, searchTerm, user, errorUserNotLogged} = useSelector((state) => {

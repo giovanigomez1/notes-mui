@@ -34,8 +34,6 @@ function ForgotPassword() {
           {"Already have an account? Sign in"}
         </Link>
       </Box>
-
-
     </Box>
   )
 }
