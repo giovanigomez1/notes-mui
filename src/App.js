@@ -24,7 +24,7 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://porfolio-ggp.vercel.app/" target='_blank'>
+      <Link color="inherit" href="https://portfolio-ggp.vercel.app/" target='_blank'>
         Ing.GGP
       </Link>{' '}
       {new Date().getFullYear()}
