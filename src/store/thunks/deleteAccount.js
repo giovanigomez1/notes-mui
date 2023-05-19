@@ -16,10 +16,8 @@ const deleteAccount = createAsyncThunk('deleteAccount/user', async (id) => {
       withCredentials: true,
       headers: { 'Content-Type': 'application/json'} 
     })
-    console.log(id)
     return true
   } catch(err) {
-    console.log(err.response.data.message)
     throw err.response.data.message
   }
 })

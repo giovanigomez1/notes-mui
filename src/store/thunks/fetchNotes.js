@@ -13,10 +13,8 @@ const fetchNotes = createAsyncThunk('notes/fetch', async (id) => {
       withCredentials: true,
       headers: { 'Content-Type': 'application/json'} 
     })
-    console.log(res.data.data.data)
     return res.data.data.data
   } catch(err) {
-    console.log(err.message)
     throw err.response.data.message
   }
 })

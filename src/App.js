@@ -20,7 +20,6 @@ import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 
 
-
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -33,7 +32,6 @@ function Copyright(props) {
     </Typography>
   );
 }
-
 
 
 function App() {
@@ -50,12 +48,10 @@ function App() {
     dispatch(checkUserLogged())
     // eslint-disable-next-line
   }, [])
-  
-  
+    
   useEffect(() => {
     checkUser()
   }, [checkUser])
-
 
 
   return (

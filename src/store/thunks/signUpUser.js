@@ -16,7 +16,6 @@ const signUpUser = createAsyncThunk('signup/users', async(user) => {
       withCredentials: true,
       headers: { 'Content-Type': 'application/json'}
     })
-    console.log(newUser)
     return newUser.data.data.user
   } catch(err) {  
     // console.log(err.response.data.status)

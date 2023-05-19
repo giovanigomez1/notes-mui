@@ -18,12 +18,10 @@ const noteSlice = createSlice({
   },
   reducers: {
     deleteNote(state, action) {
-      console.log(action.payload)
       const updated = state.notes.filter(note => note.id !== action.payload)
       state.notes = updated
     },
     editNote(state, action) {
-      console.log(action.payload)
       const updated = state.notes.filter(note => note.id !== action.payload.id)
       updated.unshift(action.payload)
       state.notes = updated
@@ -44,13 +42,11 @@ const noteSlice = createSlice({
       state.savingNote = true
     })
     builder.addCase(createNote.fulfilled, (state, action) => {
-      console.log(action.payload)
       state.notes.unshift(action.payload)
       state.savingNote = false
       state.errorUserNotLogged = ''
     })
     builder.addCase(createNote.rejected, (state, action) => {
-      console.log(action.error.message)
       state.errorUserNotLogged = action.error.message
       state.savingNote = false
     })
@@ -66,7 +62,6 @@ const noteSlice = createSlice({
       state.errorUserNotLogged = ''
     })
     builder.addCase(updateNote.rejected, (state, action) => {
-      console.log(action.error.message)
       state.errorUserNotLogged = action.error.message
     })
 

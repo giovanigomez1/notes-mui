@@ -3,7 +3,6 @@ import axios from "axios";
 
 
 const createNote = createAsyncThunk('notes/create', async (data) => {
-  console.log(data)
   try {
     const res = await axios.post('https://notesapi-mui.vercel.app/api/v1/notes', {
       title: data.title,

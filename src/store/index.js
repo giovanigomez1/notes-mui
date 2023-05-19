@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { noteReducer, deleteNote, editNote, setSearchTerm } from "./slices/noteSlice";
 import { userReducer } from "./slices/userSlice";
-
 import { resetSearch, resetLoginFailMsj } from "./actions";
 
 
@@ -11,7 +10,6 @@ export const store = configureStore({
     user: userReducer
   }
 })
-
 
 
 export { deleteNote, editNote, setSearchTerm, resetSearch, resetLoginFailMsj }

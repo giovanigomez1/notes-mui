@@ -2,7 +2,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const deleteNoteDb = createAsyncThunk('delete/note', async (id) => {
-  console.log(id)
   try {
     await axios.delete(`https://notesapi-mui.vercel.app/api/v1/notes/${id}`, {
       SameSite: 'None',

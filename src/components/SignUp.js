@@ -44,7 +44,7 @@ export default function SignUp() {
   })
 
   
-  console.log(creatingUserErrorMsj)
+  
   useEffect(() => {
     if(user) {
       navigate('/dashboard')
